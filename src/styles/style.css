@@ -13,8 +13,9 @@
     --light-grey: #36393F;
     --primary-color: #5865F2;
     --grey-text-color: #DCDDDE;
-    --font-size: .9rem;
+    --font-size: .95rem;
     --transition: .2s ease-out;
+    --green: #3BA55D;
     --hover-light-grey-color: #3b3d43;
 }
 
@@ -22,6 +23,12 @@ body {
     background: var(--deep-grey);
     font-size: var(--font-size);
     color: var(--grey-text-color)
+}
+
+.svg {
+    width: 25px;
+    filter: invert(1);
+    opacity: 0.45;
 }
 
 main {
@@ -38,12 +45,16 @@ main {
 
 .main-view {
     background: var(--semi-deep-grey);
-    width: 100%
+    background: red;
+    flex: 25;
+    /* width: calc(100vw - 75px) */
 }
 
 .side-bar {
-    width: 75px;
+    /* min-width: 70px; */
+    flex: 1;
     padding-top: 10px;
+    /* background: yellow; */
 }
 
 .room-avatar-container {
@@ -55,7 +66,6 @@ main {
     width: 5px;
     top: 20px;
     height: 20%;
-    /* margin: auto; */
     display: block;
     background: #fff;
     border-radius: 10px;
@@ -89,32 +99,38 @@ main {
 
 .main-view {
     background: var(--light-grey);
+    /* background: brown; */
     display: flex;
+    width: 100vw
 }
 
 .conversations {
     background: var(--semi-deep-grey);
-    /* background: var(--semi-deep-grey); */
-    width: 240px;
-    padding: 9px;
-    padding-top: 10px;
+    /* background: green; */
+    flex: 1;
+    /* width: 240px; */
+    /* padding: 9px; */
+    /* padding-top: 10px; */
+}
+
+.conversations-container {
+    padding: 10px;
 }
 
 .chat-view {
-    width: 87%;
-    padding: 20px;
+    /* width: 87%; */
+    /* background: blue; */
+    flex: 6.7;
+    /* padding: 20px; */
 }
 
 .chat-view .top-border-bottom {
-    width: 100%;
-    margin-left: -20px;
-    margin-top: -10px;
-    height: 51px;
+    width: 83.7%;
     background: var(--light-grey);
     display: flex;
     align-items: center;
     justify-content: space-between;
-    padding: 0 20px;
+    padding: 12px 22px;
 }
 
 .flex {
@@ -151,6 +167,16 @@ input[type="search"] {
     color: #fff;
 }
 
+.chat-view input[type="search"] {
+    width: 180px;
+    padding: 5px
+}
+
+.conversations input[type="search"] {
+    width: 11.6%;
+    /* width: 140px; */
+}
+
 .space-50 {
     height: 50px;
     width: 50px
@@ -172,17 +198,18 @@ input[type="search"] {
 }
 
 .top-border-bottom {
-    margin-left: -9px;
+    /* margin-left: -9px; */
     padding: 10px;
-    margin-top: -9px;
-    border-bottom: 1px solid var(--deep-grey);
+    /* margin-top: -9px; */
+    border-bottom: 1px solid #2022256e;
     position: fixed;
     z-index: 10;
-    top: 9px;
+    /* top: 9px; */
 }
 
 .conversations .top-border-bottom {
-    width: 240px;
+    /* width: 240px; */
+    width: 100%;
     background: var(--semi-deep-grey);
 }
 
@@ -194,6 +221,12 @@ input[type="search"] {
     border-radius: 5px;
     cursor: pointer;
     padding: 6px 7px;
+}
+
+.dm-card .status {
+    position: absolute;
+    top: 20px;
+    left: 21px;
 }
 
 .dm-card:hover {
@@ -215,11 +248,7 @@ input[type="search"] {
 .status {
     width: 16px;
     height: 16px;
-    position: absolute;
-    top: 20px;
-    left: 21px;
     border-radius: 41px;
-
 }
 
 #online, #offline {
@@ -227,7 +256,7 @@ input[type="search"] {
 }
 
 #online {
-    background: green;
+    background: var(--green)
 }
 
 #offline {
@@ -247,18 +276,37 @@ input[type="search"] {
     left: 2px;
 }
 
+.top-border-bottom .room-name #online {
+    border-width: 2px;
+    border-color: var(--light-grey);
+}
+
 .chat-input-container {
-    position: absolute;
-    bottom: 30px;
+    position: fixed;
+    bottom: 0px;
     /* background: red; */
-    width: 97%;
+    width: 100%;
+    /*  */
+    padding: 20px 0;
+    /* display: flex;
+    align-items: center;
+    justify-content: center; */
+
+}
+
+.chat-input-wrapper {
+    width: 80%;
+    margin-left: 35px;
+    height: 44px;
+    /* margin: auto; */
+    /* margin: 30px; */
+    background: #40444B;
+    padding: 0 15px;
+    border-radius: 9px;
     display: flex;
     align-items: center;
-    border-radius: 5px;
-    background: #40444B;
     justify-content: center;
-    height: 44px;
-    /* height: 10%; */
+
 }
 
 .chat-input-container .input-box {
@@ -270,8 +318,15 @@ input[type="search"] {
     outline: none;
     margin-top: 3px;
     resize: none;
-    height: 100%;
+    height: 90%;
+    /* background: #000; */
 }
+
+.messages-main-container {
+    padding: 20px;
+    padding-bottom: 100px;
+}
+
 
 ::-webkit-scrollbar {
     display: none;
