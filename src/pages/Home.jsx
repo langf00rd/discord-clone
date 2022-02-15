@@ -17,24 +17,30 @@ import gift from '../assets/icons/gift.svg'
 import gif from '../assets/icons/gif.svg'
 import sticker from '../assets/icons/sticker.svg'
 import smiley from '../assets/icons/smiley.svg'
+import friends from '../assets/icons/friends.svg'
+import nitro from '../assets/icons/nitro.svg'
 
 const Home = () => {
     const inputPlaceholder = 'Message @langford'
     return (
         <main>
             <div className="side-bar">
-                <RoomAvatar />
-                <RoomAvatar />
-                <RoomAvatar />
-                <RoomAvatar />
-                <RoomAvatar />
-                <RoomAvatar />
-                <RoomAvatar />
-                <RoomAvatar />
-                <RoomAvatar />
-                <RoomAvatar />
-                <RoomAvatar />
-                <RoomAvatar />
+                <RoomAvatar avatar={avatar1} />
+                <RoomAvatar avatar={avatar2} />
+                <RoomAvatar avatar={avatar3} />
+                <RoomAvatar avatar={avatar4} />
+                <RoomAvatar avatar={avatar1} />
+                <RoomAvatar avatar={avatar2} />
+                <RoomAvatar avatar={avatar3} />
+                <RoomAvatar avatar={avatar4} />
+                <RoomAvatar avatar={avatar1} />
+                <RoomAvatar avatar={avatar2} />
+                <RoomAvatar avatar={avatar3} />
+                <RoomAvatar avatar={avatar4} />
+                <RoomAvatar avatar={avatar1} />
+                <RoomAvatar avatar={avatar2} />
+                <RoomAvatar avatar={avatar3} />
+                <RoomAvatar avatar={avatar4} />
             </div>
             <div className="main-view">
                 <div className="conversations">
@@ -44,6 +50,18 @@ const Home = () => {
                     <div className="space-50"></div>
                     <div className="space-10"></div>
                     <div className="conversations-container">
+                        <div className="flex">
+                            <img src={friends} className='svg' alt="" />
+                            <div className="space-10"></div>
+                            <p>Fiends</p>
+                        </div>
+                        <div className="space-20"></div>
+                        <div className="flex">
+                            <img src={nitro} className='svg' alt="" />
+                            <div className="space-10"></div>
+                            <p>Nitro</p>
+                        </div>
+                        <div className="space-30"></div>
                         <b className="fade-text">DIRECT MESSAGES</b>
                         <div className="space-10"></div>
                         <DmCard name='Lo-fi beats' avatar={avatar3} status='online' />
