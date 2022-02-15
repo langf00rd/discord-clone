@@ -13,6 +13,10 @@ import personPlus from '../assets/icons/person-plus.svg'
 import inbox from '../assets/icons/inbox.svg'
 import phone from '../assets/icons/phone.svg'
 import help from '../assets/icons/help.svg'
+import gift from '../assets/icons/gift.svg'
+import gif from '../assets/icons/gif.svg'
+import sticker from '../assets/icons/sticker.svg'
+import smiley from '../assets/icons/smiley.svg'
 
 const Home = () => {
     const inputPlaceholder = 'Message @langford'
@@ -98,6 +102,14 @@ const Home = () => {
                         <div className="chat-input-wrapper">
                             <img src={plusFilled} className='svg' />
                             <textarea type="text" className="input-box" placeholder={inputPlaceholder} ></textarea>
+                            <div className="space-20"></div>
+                            <img src={gift} className='svg' />
+                            <div className="space-20"></div>
+                            <img src={gif} className='svg' />
+                            <div className="space-20"></div>
+                            <img src={sticker} className='svg' />
+                            <div className="space-20"></div>
+                            <img src={smiley} className='svg' />
                         </div>
                     </div>
                 </div>
