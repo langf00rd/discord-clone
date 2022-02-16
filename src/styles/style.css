@@ -29,6 +29,7 @@ body {
     width: 25px;
     filter: invert(1);
     opacity: 0.6;
+    cursor: pointer;
 }
 
 main {
@@ -140,7 +141,7 @@ main {
 }
 
 .fade-text {
-    opacity: .3;
+    opacity: .4;
 }
 
 .message-card {
@@ -230,8 +231,23 @@ input[type="search"] {
     left: 21px;
 }
 
-.dm-card:hover {
+.dm-card:hover,
+.active-room {
     background: var(--hover-light-grey-color);
+}
+
+.hover-effect:hover {
+    background: var(--hover-light-grey-color);
+}
+
+.hover-effect {
+    padding: 6px;
+    border-radius: 5px;
+    cursor: pointer;
+}
+
+.home-btn {
+    background: red;
 }
 
 .dm-avatar-container {
