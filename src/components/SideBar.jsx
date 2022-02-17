@@ -9,10 +9,10 @@ const SideBar = () => {
     return (
         <div className="side-bar">
             {/* <RoomAvatar avatar={discord} name='Home' className='home-btn' /> */}
-            <RoomAvatar avatar={avatar1} name='James' />
-            <RoomAvatar avatar={avatar2} name='David' />
-            <RoomAvatar avatar={avatar3} name='Peter' />
-            <RoomAvatar avatar={avatar4} name='Esther' />
+            <RoomAvatar avatar={avatar1} name='Buildspace' />
+            <RoomAvatar avatar={avatar2} name='nft-degens' />
+            <RoomAvatar avatar={avatar3} name='LoFi-tunez' />
+            <RoomAvatar avatar={avatar4} name='Memes' />
         </div>
     );
 }

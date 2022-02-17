@@ -154,6 +154,10 @@ main {
     display: flex;
 }
 
+.message-text {
+    color: #c1c1c1
+}
+
 .message-avatar {
     border-radius: 100px;
     width: 40px;

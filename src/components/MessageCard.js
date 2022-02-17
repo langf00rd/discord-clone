@@ -9,7 +9,7 @@ const MessageCard = (props) => {
                     <div className="space-10"></div>
                     <small className="fade-text">{props.timestamp}</small>
                 </div>
-                <div className="message-text">{props.content}</div>
+                <p className="message-text">{props.content}</p>
             </div>
         </div>
     );

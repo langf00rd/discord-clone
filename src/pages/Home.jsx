@@ -1,26 +1,26 @@
-import RoomAvatar from "../components/RoomAvatar"
+import React, { useState, useReducer } from "react"
+import { faker } from '@faker-js/faker';
+import Gun from 'gun'
+import plusFilled from '../assets/icons/plus-filled.svg'
+import personPlus from '../assets/icons/person-plus.svg'
+import MessageCard from "../components/MessageCard"
+import sticker from '../assets/icons/sticker.svg'
+import friends from '../assets/icons/friends.svg'
+import smiley from '../assets/icons/smiley.svg'
+import video from '../assets/icons/video.svg'
 import avatar1 from '../assets/avatar-1.webp'
-import avatar2 from '../assets/avatar-2.png'
 import avatar3 from '../assets/avatar-3.webp'
 import avatar4 from '../assets/avatar-4.webp'
-import DmCard from "../components/DmCard"
-import MessageCard from "../components/MessageCard"
-import plusFilled from '../assets/icons/plus-filled.svg'
-import at from '../assets/icons/at.svg'
-import video from '../assets/icons/video.svg'
-import pin from '../assets/icons/pin.svg'
-import personPlus from '../assets/icons/person-plus.svg'
+import avatar2 from '../assets/avatar-2.png'
 import inbox from '../assets/icons/inbox.svg'
 import phone from '../assets/icons/phone.svg'
-import help from '../assets/icons/help.svg'
-import gift from '../assets/icons/gift.svg'
-import gif from '../assets/icons/gif.svg'
-import sticker from '../assets/icons/sticker.svg'
-import smiley from '../assets/icons/smiley.svg'
-import friends from '../assets/icons/friends.svg'
 import nitro from '../assets/icons/nitro.svg'
-import React, { useState, useReducer } from "react"
-import Gun from 'gun'
+import gift from '../assets/icons/gift.svg'
+import help from '../assets/icons/help.svg'
+import gif from '../assets/icons/gif.svg'
+import DmCard from "../components/DmCard"
+import pin from '../assets/icons/pin.svg'
+import at from '../assets/icons/at.svg'
 import SideBar from "../components/SideBar"
 
 const gun = Gun({
@@ -29,53 +29,63 @@ const gun = Gun({
     ]
 })
 
-const initialState = {
-    messages: [],
-}
+const initialState = { messages: [] }
 
 function reducer(state, action) {
-    console.log(action.type)
-
-    if (action.type == "add")
-        return {
-            messages: [...state.messages, action.data],
-        }
-
-    if (action.type == "clear")
-        return {
-            messages: [],
-        }
+    if (action.type == "add") return { messages: [...state.messages, action.data] }
+    if (action.type == "clear") return { messages: [] }
 }
 
 const Home = () => {
     const [roomName, setroomName] = useState(window.location.hash.replace('#', ""))
-    const [placeholder, setPlaceholder] = useState('Message...')
-    const [messageText, setMessageText] = useState('')
-
     const [state, dispatch] = useReducer(reducer, initialState)
 
-    React.useEffect(() => {
+    const [placeholder, setPlaceholder] = useState('Message...')
+    const [messageText, setMessageText] = useState('')
+    const [name, setName] = useState('')
+    const [id, setId] = useState('')
 
-        listenForRouteChange()
-        onload()
+    React.useEffect(() => {
+        observerRouteChange()
+
+        const randomID = (Math.random() * 100000).toFixed(0)
+        const randomName = faker.name.findName();
+
+        sessionStorage.setItem('name', randomName)
+        sessionStorage.setItem('id', randomID)
+
+        const sessionName = sessionStorage.getItem('name').split(" ")[0]
+        const sessionId = sessionStorage.getItem('id')
+
+        setName(sessionName)
+        setId(sessionId)
+
+        getMessages(true)
 
     }, [])
 
-    const onload = () => {
-        let name = window.location.hash.replace('#', "")
-        const messagesRef = gun.get(name)
+    const getMessages = (isPrivate) => {
+
+        const _name = window.location.hash.replace('#', "")
+        const _roomId = window.location.pathname.substring(14, 22)
+        const messagesRef = gun.get(isPrivate ? _roomId : _name)
 
         messagesRef.map().once(m => {
-
             dispatch({
                 type: 'add', data: {
-                    sender: m.sender,
-                    content: m.content,
-                    avatar: m.avatar,
-                    createdAt: m.createdAt,
+                    "sender": m.sender,
+                    "content": m.content,
+                    "avatar": m.avatar,
+                    "createdAt": m.createdAt,
                 }
             })
         })
+    }
+
+    const isPrivateChat = () => {
+        let _path = window.location.pathname
+        if (_path === "/channels") return false
+        return true
     }
 
     const sendMessage = (e) => {
@@ -84,28 +94,32 @@ const Home = () => {
 
         if (messageText.trim() === '') return
 
-        const messagesRef = gun.get(roomName)
+        const _roomId = window.location.pathname.substring(14, 22)
+        const messagesRef = gun.get(isPrivateChat() ? _roomId : roomName)
 
         messagesRef.set({
-            "sender": "abcd",
+            "sender": name,
             "avatar": "https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcS3OCSMFIW5fZ3vSN6yGpD-w-6SsL2_ZPA_sw&usqp=CAU",
             "content": messageText.trim(),
-            "createdAt": Date.now(),
+            "createdAt": Date().substring(4, 11),
         })
 
         setMessageText('')
     }
 
-    const listenForRouteChange = () => {
-
+    const observerRouteChange = () => {
         window.addEventListener('hashchange', function () {
-            let name = window.location.hash.replace('#', "")
-            // console.log(window.location.pathname.substring(6, 10))
-            setroomName(name)
+
+            let _name = window.location.hash.replace('#', "")
+            let _path = window.location.pathname
+
+            if (_path === "/channels") getMessages(false)
+            else getMessages(true)
+
+            dispatch({ type: 'clear', data: {} })
             setPlaceholder(`Message ${name}`)
             setMessageText('')
-            dispatch({ type: 'clear', data: {} })
-            onload()
+            setroomName(_name)
         })
     }
 
@@ -134,10 +148,11 @@ const Home = () => {
                         <div className="space-30"></div>
                         <b className="fade-text">DIRECT MESSAGES</b>
                         <div className="space-10"></div>
-                        <DmCard name='Lo-fi' avatar={avatar3} status='online' />
-                        <DmCard name='Rafeh' avatar={avatar1} status='offline' />
-                        <DmCard name='Buildspace' avatar={avatar4} status='offline' />
-                        <DmCard name='Langford' avatar={avatar2} status='online' />
+
+                        <DmCard name='Suzanna' id='123' avatar={avatar3} status='online' />
+                        <DmCard name='Rafeh' id='456' avatar={avatar1} status='online' />
+                        <DmCard name='Jerry' id='789' avatar={avatar4} status='offline' />
+                        <DmCard name='Langford' id='010' avatar={avatar2} status='online' />
                     </div>
                 </div>
 
@@ -171,14 +186,11 @@ const Home = () => {
                     <div className="space-20"></div>
 
                     <div className="messages-main-container">
-
                         {
                             state.messages.map((msg, index) => {
                                 return <MessageCard key={index} avatar={msg.avatar} sender={msg.sender} timestamp={msg.createdAt} content={msg.content} />
                             })
                         }
-
-
                     </div>
 
                     <form onSubmit={e => sendMessage(e)} className="chat-input-container">

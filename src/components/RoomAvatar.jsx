@@ -1,8 +1,7 @@
 const RoomAvatar = (props) => {
 
-    console.log(props)
-
     const changeUrl = () => {
+        window.history.replaceState(null, props.name, `/channels`)
         window.location.hash = props.name
     }
 
