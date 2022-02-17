@@ -15,13 +15,13 @@ import avatar2 from '../assets/avatar-2.png'
 import inbox from '../assets/icons/inbox.svg'
 import phone from '../assets/icons/phone.svg'
 import nitro from '../assets/icons/nitro.svg'
+import SideBar from "../components/SideBar"
 import gift from '../assets/icons/gift.svg'
 import help from '../assets/icons/help.svg'
 import gif from '../assets/icons/gif.svg'
 import DmCard from "../components/DmCard"
 import pin from '../assets/icons/pin.svg'
 import at from '../assets/icons/at.svg'
-import SideBar from "../components/SideBar"
 
 const gun = Gun({
     peers: [
@@ -43,7 +43,6 @@ const Home = () => {
     const [placeholder, setPlaceholder] = useState('Message...')
     const [messageText, setMessageText] = useState('')
     const [name, setName] = useState('')
-    const [id, setId] = useState('')
 
     React.useEffect(() => {
         observerRouteChange()
@@ -55,20 +54,17 @@ const Home = () => {
         sessionStorage.setItem('id', randomID)
 
         const sessionName = sessionStorage.getItem('name').split(" ")[0]
-        const sessionId = sessionStorage.getItem('id')
 
         setName(sessionName)
-        setId(sessionId)
-
-        getMessages(true)
+        getMessages()
 
     }, [])
 
-    const getMessages = (isPrivate) => {
+    const getMessages = () => {
 
         const _name = window.location.hash.replace('#', "")
         const _roomId = window.location.pathname.substring(14, 22)
-        const messagesRef = gun.get(isPrivate ? _roomId : _name)
+        const messagesRef = gun.get(isPrivateChat() ? _roomId : _name)
 
         messagesRef.map().once(m => {
             dispatch({
@@ -113,8 +109,8 @@ const Home = () => {
             let _name = window.location.hash.replace('#', "")
             let _path = window.location.pathname
 
-            if (_path === "/channels") getMessages(false)
-            else getMessages(true)
+            if (_path === "/channels") getMessages()
+            else getMessages()
 
             dispatch({ type: 'clear', data: {} })
             setPlaceholder(`Message ${name}`)
