@@ -103,11 +103,8 @@ const Home = () => {
         window.addEventListener('hashchange', function () {
 
             let _name = window.location.hash.replace('#', "")
-            let _path = window.location.pathname
 
-            if (_path === "/channels") getMessages()
-            else getMessages()
-
+            getMessages()
             dispatch({ type: 'clear', data: {} })
             setPlaceholder(`Message ${name}`)
             setMessageText('')
@@ -157,7 +154,7 @@ const Home = () => {
                             <div className="space-10"></div>
                             <div className="status" id="online"></div>
                         </div>
-                        <div className="flex">
+                        <div className="flex header-icons">
                             <img src={phone} className='svg' alt="" />
                             <div className="space-20"></div>
                             <img src={video} className='svg' alt="" />

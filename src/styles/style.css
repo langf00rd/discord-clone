@@ -357,3 +357,63 @@ input[type="search"] {
 ::-webkit-scrollbar {
     display: none;
 }
+
+@media screen and (max-width:1440px) {
+    .side-bar {
+        flex: 1.4
+    }
+
+    .conversations {
+        flex: 1.1
+    }
+}
+
+@media screen and (max-width:1024px) {
+
+    .side-bar,
+    .conversations {
+        flex: 2
+    }
+
+    .chat-view .top-border-bottom {
+        width: 72%;
+    }
+}
+
+@media screen and (max-width:768px) {
+
+    .conversations {
+        flex: 2.6
+    }
+
+    .side-bar {
+        flex: 3
+    }
+
+    .header-icons {
+        display: none;
+    }
+
+    .chat-input-container {
+        width: 68%
+    }
+}
+
+@media screen and (max-width:480px) {
+    .conversations {
+        display: none;
+    }
+
+    .side-bar {
+        flex: 5
+    }
+
+    .chat-input-wrapper {
+        width: 113%;
+        margin-left: 16px;
+    }
+
+    .chat-view .top-border-bottom {
+        width: 100%;
+    }
+}
