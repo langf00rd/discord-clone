@@ -99,6 +99,11 @@ main {
     top: 12px
 }
 
+.active-channel::before {
+    height: 55%;
+    top: 12px
+}
+
 .main-view {
     background: var(--light-grey);
     /* background: brown; */

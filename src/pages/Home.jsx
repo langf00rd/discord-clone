@@ -19,22 +19,84 @@ import sticker from '../assets/icons/sticker.svg'
 import smiley from '../assets/icons/smiley.svg'
 import friends from '../assets/icons/friends.svg'
 import nitro from '../assets/icons/nitro.svg'
-import discord from '../assets/icons/discord.svg'
-import React, { useState } from "react"
-import GUN from "https://cdn.skypack.dev/gun";
+import React, { useState, useReducer } from "react"
+import Gun from 'gun'
+import SideBar from "../components/SideBar"
+
+const gun = Gun({
+    peers: [
+        'http://localhost:9000/gun'
+    ]
+})
+
+const initialState = {
+    messages: [],
+}
+
+function reducer(state, action) {
+    console.log(action.type)
+
+    if (action.type == "add")
+        return {
+            messages: [...state.messages, action.data],
+        }
+
+    if (action.type == "clear")
+        return {
+            messages: [],
+        }
+}
 
 const Home = () => {
-    const [roomName, setroomName] = useState()
+    const [roomName, setroomName] = useState(window.location.hash.replace('#', ""))
     const [placeholder, setPlaceholder] = useState('Message...')
     const [messageText, setMessageText] = useState('')
 
-    // const server = require('http').createServer().listen(8080);
-    // const gun = GUN({ web: server });
+    const [state, dispatch] = useReducer(reducer, initialState)
 
     React.useEffect(() => {
 
-        console.log(GUN())
+        listenForRouteChange()
+        onload()
 
+    }, [])
+
+    const onload = () => {
+        let name = window.location.hash.replace('#', "")
+        const messagesRef = gun.get(name)
+
+        messagesRef.map().once(m => {
+
+            dispatch({
+                type: 'add', data: {
+                    sender: m.sender,
+                    content: m.content,
+                    avatar: m.avatar,
+                    createdAt: m.createdAt,
+                }
+            })
+        })
+    }
+
+    const sendMessage = (e) => {
+
+        e.preventDefault()
+
+        if (messageText.trim() === '') return
+
+        const messagesRef = gun.get(roomName)
+
+        messagesRef.set({
+            "sender": "abcd",
+            "avatar": "https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcS3OCSMFIW5fZ3vSN6yGpD-w-6SsL2_ZPA_sw&usqp=CAU",
+            "content": messageText.trim(),
+            "createdAt": Date.now(),
+        })
+
+        setMessageText('')
+    }
+
+    const listenForRouteChange = () => {
 
         window.addEventListener('hashchange', function () {
             let name = window.location.hash.replace('#', "")
@@ -42,31 +104,14 @@ const Home = () => {
             setroomName(name)
             setPlaceholder(`Message ${name}`)
             setMessageText('')
+            dispatch({ type: 'clear', data: {} })
+            onload()
         })
-
-
-    }, [])
+    }
 
     return (
         <main>
-            <div className="side-bar">
-                <RoomAvatar avatar={discord} className='home-btn' />
-                <RoomAvatar avatar={avatar2} />
-                <RoomAvatar avatar={avatar3} />
-                <RoomAvatar avatar={avatar4} />
-                <RoomAvatar avatar={avatar1} />
-                <RoomAvatar avatar={avatar2} />
-                <RoomAvatar avatar={avatar3} />
-                <RoomAvatar avatar={avatar4} />
-                <RoomAvatar avatar={avatar1} />
-                <RoomAvatar avatar={avatar2} />
-                <RoomAvatar avatar={avatar3} />
-                <RoomAvatar avatar={avatar4} />
-                <RoomAvatar avatar={avatar1} />
-                <RoomAvatar avatar={avatar2} />
-                <RoomAvatar avatar={avatar3} />
-                <RoomAvatar avatar={avatar4} />
-            </div>
+            <SideBar />
             <div className="main-view">
                 <div className="conversations">
                     <div className="top-border-bottom">
@@ -126,14 +171,21 @@ const Home = () => {
                     <div className="space-20"></div>
 
                     <div className="messages-main-container">
-                        <MessageCard avatar={avatar1} sender='Langford' timestamp='02/02/2022' content='Hello world' />
+
+                        {
+                            state.messages.map((msg, index) => {
+                                return <MessageCard key={index} avatar={msg.avatar} sender={msg.sender} timestamp={msg.createdAt} content={msg.content} />
+                            })
+                        }
+
+
                     </div>
 
-                    <div className="chat-input-container">
+                    <form onSubmit={e => sendMessage(e)} className="chat-input-container">
                         <div className="chat-input-wrapper">
                             <img src={plusFilled} className='svg' />
 
-                            <textarea value={messageText} onChange={(e) => setMessageText(e.target.value)} type="text" className="input-box" placeholder={placeholder} ></textarea>
+                            <input value={messageText} onChange={(e) => setMessageText(e.target.value)} type="text" className="input-box" placeholder={placeholder} />
 
                             <div className="space-20"></div>
                             <img src={gift} className='svg' />
@@ -144,10 +196,10 @@ const Home = () => {
                             <div className="space-20"></div>
                             <img src={smiley} className='svg' />
                         </div>
-                    </div>
+                    </form>
                 </div>
             </div>
-        </main>
+        </main >
     )
 }
 
