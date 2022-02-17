@@ -23,11 +23,7 @@ import DmCard from "../components/DmCard"
 import pin from '../assets/icons/pin.svg'
 import at from '../assets/icons/at.svg'
 
-const gun = Gun({
-    peers: [
-        'http://localhost:9000/gun'
-    ]
-})
+const gun = Gun(["https://discord-clone-x.herokuapp.com/gun"])
 
 const initialState = { messages: [] }
 
