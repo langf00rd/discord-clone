@@ -1,0 +1,32 @@
+{
+  "files": {
+    "main.css": "/static/css/main.f1b0eaed.css",
+    "main.js": "/static/js/main.32b4c020.js",
+    "static/js/787.9b1ee62a.chunk.js": "/static/js/787.9b1ee62a.chunk.js",
+    "static/media/avatar-3.webp": "/static/media/avatar-3.9d3ab2659137ea9082e2.webp",
+    "static/media/nitro.svg": "/static/media/nitro.0c8d8a64e9dbd0c57948e90d56fa8990.svg",
+    "static/media/sticker.svg": "/static/media/sticker.6b399d2ffed1e25001f771bba02b4bb0.svg",
+    "static/media/avatar-4.webp": "/static/media/avatar-4.37f42ec8adc12a9e650d.webp",
+    "static/media/gift.svg": "/static/media/gift.1dce916822dc11def9a28aafd999126b.svg",
+    "static/media/at.svg": "/static/media/at.239565394e78963f8e7dcacd36ce952a.svg",
+    "static/media/gif.svg": "/static/media/gif.bbcffbfdea4754a3e4f5d55837ec99fa.svg",
+    "static/media/smiley.svg": "/static/media/smiley.016b5eb4d9084866b46d3e9aef48d6b1.svg",
+    "index.html": "/index.html",
+    "static/media/friends.svg": "/static/media/friends.55ea6d8ff38fc233320b160e05ad9979.svg",
+    "static/media/avatar-1.webp": "/static/media/avatar-1.17e9b59673ca8bb919de.webp",
+    "static/media/phone.svg": "/static/media/phone.5470eaeadcb5495f674fc4bbb6a27c26.svg",
+    "static/media/help.svg": "/static/media/help.f01e62f6652eb70caa9b10fe92bdef0b.svg",
+    "static/media/video.svg": "/static/media/video.1aff789a6e70d2cde3230b375998b9c5.svg",
+    "static/media/pin.svg": "/static/media/pin.1592d50ce61440222d077e18bad735a9.svg",
+    "static/media/person-plus.svg": "/static/media/person-plus.14c23ef917b0697e160922ce297dd670.svg",
+    "static/media/plus-filled.svg": "/static/media/plus-filled.4750cd5562beac09c24e7b6198afb248.svg",
+    "static/media/inbox.svg": "/static/media/inbox.72d05f2d97525869385b4f560f0f927f.svg",
+    "main.f1b0eaed.css.map": "/static/css/main.f1b0eaed.css.map",
+    "main.32b4c020.js.map": "/static/js/main.32b4c020.js.map",
+    "787.9b1ee62a.chunk.js.map": "/static/js/787.9b1ee62a.chunk.js.map"
+  },
+  "entrypoints": [
+    "static/css/main.f1b0eaed.css",
+    "static/js/main.32b4c020.js"
+  ]
+}
