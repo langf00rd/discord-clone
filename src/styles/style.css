@@ -105,16 +105,16 @@ main {
 }
 
 .main-view {
-    background: var(--light-grey);
     /* background: brown; */
+    background: var(--light-grey);
     display: flex;
     width: 100vw
 }
 
 .conversations {
     background: var(--semi-deep-grey);
-    /* background: green; */
     flex: 1;
+    /* background: green; */
     /* width: 240px; */
     /* padding: 9px; */
     /* padding-top: 10px; */
@@ -155,7 +155,8 @@ main {
 }
 
 .message-text {
-    color: #c1c1c1
+    color: #c1c1c1;
+    max-width: 800px;
 }
 
 .message-avatar {

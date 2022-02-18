@@ -1,6 +1,6 @@
 import React, { useState, useReducer } from "react"
-import { faker } from '@faker-js/faker';
 import Gun from 'gun'
+import { faker } from '@faker-js/faker';
 import plusFilled from '../assets/icons/plus-filled.svg'
 import personPlus from '../assets/icons/person-plus.svg'
 import MessageCard from "../components/MessageCard"
@@ -23,13 +23,22 @@ import DmCard from "../components/DmCard"
 import pin from '../assets/icons/pin.svg'
 import at from '../assets/icons/at.svg'
 
-const gun = Gun(["https://discord-clone-x.herokuapp.com/gun"])
+const gun = Gun(["http://localhost:5000/gun"])
+// const gun = Gun(["https://discord-clone-x.herokuapp.com/gun"])
 
 const initialState = { messages: [] }
 
 function reducer(state, action) {
-    if (action.type == "add") return { messages: [...state.messages, action.data] }
-    if (action.type == "clear") return { messages: [] }
+
+    try {
+
+        if (action.type == "clear") return { messages: [] }
+        if (action.type == "add") return { messages: [...state.messages, action.data] }
+    }
+
+    catch (e) {
+        console.log(e)
+    }
 }
 
 const Home = () => {
@@ -56,6 +65,19 @@ const Home = () => {
 
     }, [])
 
+    function formattedMessagesAray() {
+
+        const uniqueArray = state.messages.filter((value, index) => {
+            const _value = JSON.stringify(value);
+
+            return index === state.messages.findIndex(obj => {
+                return JSON.stringify(obj) === _value;
+            });
+        });
+
+        return uniqueArray
+    }
+
     const getMessages = () => {
 
         const _name = window.location.hash.replace('#', "")
@@ -63,12 +85,14 @@ const Home = () => {
         const messagesRef = gun.get(isPrivateChat() ? _roomId : _name)
 
         messagesRef.map().once(m => {
+
             dispatch({
                 type: 'add', data: {
                     "sender": m.sender,
                     "content": m.content,
                     "avatar": m.avatar,
                     "createdAt": m.createdAt,
+                    "messageId": m.messageId
                 }
             })
         })
@@ -79,6 +103,7 @@ const Home = () => {
         if (_path === "/channels") return false
         return true
     }
+    const _roomId = window.location.pathname.substring(14, 22)
 
     const sendMessage = (e) => {
 
@@ -86,15 +111,17 @@ const Home = () => {
 
         if (messageText.trim() === '') return
 
-        const _roomId = window.location.pathname.substring(14, 22)
         const messagesRef = gun.get(isPrivateChat() ? _roomId : roomName)
 
-        messagesRef.set({
+        const newMessage = {
             "sender": name,
             "avatar": "https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcS3OCSMFIW5fZ3vSN6yGpD-w-6SsL2_ZPA_sw&usqp=CAU",
             "content": messageText.trim(),
             "createdAt": Date().substring(4, 11),
-        })
+            "messageId": Date.now()
+        }
+
+        messagesRef.set(newMessage)
 
         setMessageText('')
     }
@@ -176,8 +203,8 @@ const Home = () => {
 
                     <div className="messages-main-container">
                         {
-                            state.messages.map((msg, index) => {
-                                return <MessageCard key={index} avatar={msg.avatar} sender={msg.sender} timestamp={msg.createdAt} content={msg.content} />
+                            formattedMessagesAray().map(msg => {
+                                return <MessageCard key={msg.messageId} avatar={msg.avatar} sender={msg.sender} timestamp={msg.createdAt} content={msg.content} />
                             })
                         }
                     </div>
